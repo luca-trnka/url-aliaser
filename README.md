@@ -1,4 +1,4 @@
-# Alopex Orientation Retake Exam
+# Orientation Example Exam
 
 ## Getting Started
 - Fork this repository under your own account

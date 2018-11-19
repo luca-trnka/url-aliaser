@@ -1,4 +1,4 @@
-# Alopex Orientation Retake Exam
+# Orientation Example Exam
 
 We are going to create something like a [URL shortening](https://en.wikipedia.org/wiki/URL_shortening)
 application but we are not going to struggle with random strings rather we will
