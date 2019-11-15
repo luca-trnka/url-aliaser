@@ -42,7 +42,7 @@ and returns the average of the smallest odd and largest even.
 3.5
 ```
 
-## Doggo register *(50%)*
+## Doggo register *(40%)*
 
 Create a simple dog register, you should store the following data in structure called `dog`:
 
@@ -121,7 +121,7 @@ example_dog_struct dogs[] = {
 1
 ```
 
-## LED control *(15%)*
+## LED control *(20%)*
 
 There is a button on the devboard, use that button. Your task is that on button push, that LED should start lightening up and down smoothly. 
 To solve this challenge use interrupts and PWM.
