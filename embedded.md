@@ -79,7 +79,7 @@ example_dog_struct dogs[] = {
 "FOXY"
 ```
 
-Implement a function called `get_size_count` which taked the dog array and a valid size and returns the count of dogs which has size qualification.
+Implement a function called `get_size_count` which takes the dog array and a valid size and returns the count of dogs which has size qualification.
 
 #### Input 1
 
@@ -123,7 +123,8 @@ example_dog_struct dogs[] = {
 
 ## LED control *(20%)*
 
-There is a button on the devboard, use that button. Your task is that on button push, that LED should start lightening up and down smoothly. 
+There is a button on the devboard, use that button. You should handle the button press event with an interrupt and the LED brightness should be controlled with PWM.
+The LED must reach highest brightness in about 2 seconds, and go back to the dark state in about 2 seconds.
 To solve this challenge use interrupts and PWM.
 
 ## Question *(5%)*
