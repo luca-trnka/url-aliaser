@@ -1,126 +1,138 @@
-# On-demand air pressure measurement
+## Tricky average *(20%)*
 
-## Before you start coding
-The exercise has to make sure about the followings:
 
-- Compiles
-- Does not have any undefined behaviour
-- Does not crash
-- Does not leak memory
-- Does not use any blocking mechanism (like HAL_Delay() or HAL_UART_Receive())
+Create a function called `GetTrickyAvg` that takes a number array (only integers) as parameter 
+and returns the average of the smallest odd and largest even.
 
-## Summary of operation and goals
-As a part of a big project your task is to create an embedded software, which
-can measure air pressure in a smart watch application. The air pressure will be
-measured with an analog sensor connected to the MCU. When the user pushes a
-button on the smart watch the air pressure is measured and stored together
-with a timestamp in the MCU memory.
+### Example:
 
-The final hardware is currently not available, but you can use an
-STM32F746G-DISCO development board and a potentiometer to simulate the
-air pressure change. The blue pushbutton can be also used to simulate the user
-button press. CMSIS-OS over freeRTOS embedded real-time operating system
-must be used in your solution.
+#### Input 1
 
-Your task is to:
-- detect a pushbutton event using an EXTI interrupt and signal the event to an
-RTOS task using a signal,
+```text
+[1, 2, 3]
+```  
 
-- in the RTOS task start an ADC conversion and store the air pressure and the
-timestamp in a vector (see vector specification later),
+#### Output 1
 
-- in an other RTOS task print out the vector content to the USB-UART interface
-in every 1000ms (see formatting specifications later).
-
-## Vector implementation
-
-Each measurement should be stored in a simple structure which is part of the
-specification:
-
-```c
-struct air_pressure {
-  float pressure_kPa;
-  uint32_t timestamp_ms;
-} air_pressure_t;
+```text
+1.5
 ```
 
-To store the measurement data you must use a custom vector data structure, 
-which has the following features:
-- dynamically allocated
+#### Input 2
 
-  - starts with 0 capacity
-  
-  - when the vector is full then twice as much memory is allocated as before
-  (except the very first allocation where the capacity is 0. The first allocation
-  should make sure that the vector starts on 10 capacity)
+```text
+[3, 4, 5, 6]
+```  
 
-- represented by an appropriete `struct`
+#### Output 2
 
-- implements (same functionality as in C++ `std::vector`)
-  - `void push_back` receives a vector and and an `air_pressure_t` and puts it at the end of the vector
-  - `void pop_back` receives a vector and removes the last element of the vector
-  - `air_pressure_t at` receives a vector and an index and returns the air_pressure_t structure stored on the given index 
-  - `bool empty` receives a vector and returns a bool whether it's empty or not
-  - `int size` recives a vector and returns its size
-  - `int capacity` receives a vector and returns its capacity
-
-**Important Note**: Your functions will be used in FreeRTOS task conext
-so you should use `pvPortMalloc` and `vPortFree` instead of `malloc` and `free`
-for dynamic memory allocation and deallocation.
-
-## User button detection
-Configure the user button as EXTI interrupt source and
-implement the interrupt handler. You can generate code with STM32CubeIDE CubeMX
-tool.
-
-## Analog measurement
-The potentiometer output should be connected to the A1 pin and the
-ADCx peripheral should be configured to be able to measure the voltage on
-pin A1 with blocking HAL_ADC functions (interrupt or DMA based measruement
-is not required).
-
-The relation between the measured voltage and the pressure can be considered
-linear and defined by the following table:
-
-| Voltage in mV | Air pressure in kPa |
-| ------------- | ------------------- |
-| 0             | 90                  |
-| 1650          | 105                 |
-| 3300          | 120                 |
-
-## Putting things together
-You must implement the application with the following RTOS tasks:
-
-- `void air_pressure_meas(void const *param)`
-- `void air_pressure_print(void const *param)`
-
-As the vector is accessed from both task **you must protect it from concurrent
-access** with a mutex.
-
-The serial output should look like the following after a few seconds and 
-5 pushbutton events:
-
-```gen
-----------------------
-Vector is empty
-----------------------
-Vector is empty
-----------------------
-1.    0008178ms 109kPa
-2.    0008816ms 101kPa
-----------------------
-1.    0008178ms 109kPa
-2.    0008816ms 101kPa
-3.    0009910ms 090kPa
-----------------------
-1.    0008178ms 109kPa
-2.    0008816ms 101kPa
-3.    0009910ms 090kPa
-4.    0010820ms 117kPa
-----------------------
-1.    0008178ms 109kPa
-2.    0008816ms 101kPa
-3.    0009910ms 090kPa
-4.    0010820ms 117kPa
-5.    0011850ms 090kPa
+```text
+4.5
 ```
+
+#### Input 3
+
+```text
+[5, 2, 8, -1]
+```  
+
+#### Output 3
+
+```text
+3.5
+```
+
+## Doggo register *(40%)*
+
+Create a simple dog register, you should store the following data in structure called `dog`:
+
+- the name of the dog, 
+- the age of the dog,
+- the weight of the dog (in kilograms),
+- the size of the dog (as a custome type, see below).
+
+You should store the weight in an enum called `size`, the valid values are:
+- small,
+- medium, 
+- big,
+- large.
+
+Store the registered dogs in an array.
+
+Implement a function called `get_oldest` which takes the dog array as a parameter and returns the name of the oldest dog. 
+
+### Example:
+
+#### Input 1
+
+```cpp
+example_dog_struct dogs[] = {
+    {"ANNA", 2, 4, small},
+    {"BELA", 3, 11, medium},
+    {"FOXY", 6, 23, big}
+};
+```  
+
+#### Output 1
+
+```cpp
+"FOXY"
+```
+
+Implement a function called `get_size_count` which takes the dog array and a valid size and returns the count of dogs which has size qualification.
+
+#### Input 1
+
+We are calling the `get_size_count` function with  `medium` as a valid size.
+
+```cpp
+example_dog_struct dogs[] = {
+    {"ANNA", 2, 4, small},
+    {"BELA", 3, 11, medium},
+    {"FOXY", 6, 23, big},
+    {"MAX", 1, 7, medium},
+    {"DANNY", 11, 33, large}
+};
+```  
+
+#### Output 1
+
+```cpp
+2
+```
+
+#### Input 2
+
+We are calling the `get_size_count` function with  `small` as a valid size.
+
+```cpp
+example_dog_struct dogs[] = {
+    {"ANNA", 2, 4, small},
+    {"BELA", 3, 11, medium},
+    {"FOXY", 6, 23, big},
+    {"MAX", 1, 7, medium},
+    {"DANNY", 11, 33, large}
+};
+```  
+
+#### Output 2
+
+```cpp
+1
+```
+
+## LED control *(20%)*
+
+There is a button on the devboard, use that button. You should handle the button press event with an interrupt and the LED brightness should be controlled with PWM.
+The LED must reach highest brightness in about 2 seconds, and go back to the dark state in about 2 seconds.
+To solve this challenge use interrupts and PWM.
+
+## Question *(5%)*
+
+### - Given the following number: 10010011. How do you change the second bit to 1 and the last bit to 0 with bitwise operators without changing the other bits? type your answer here (Give code example in C)
+*type your answer here (please explain with your own words)*
+
+
+### - What's the difference between pseudo random number generation and true random number generation? type your answer here (please explain with your own words)
+*type your answer here (please explain with your own words)*
+
