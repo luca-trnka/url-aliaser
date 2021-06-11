@@ -33,7 +33,7 @@ create a *"URL aliasing application"*.
 ## `POST /save-link`
 - If the alias is already in use redirect to the main page with the error scenario
 - Else
-  - Generate a secret code which is just a random 4-digit integer
+  - Generate a secret code which is just a random 4-digit string consisting of numbers
   - Store the entry in the database
   - Redirect to the main page with the success scenario
 
