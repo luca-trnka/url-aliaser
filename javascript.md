@@ -43,7 +43,7 @@ create a *"URL aliasing application"*.
       "url": "http://reddit.com",
       "alias": "bye-bye-time",
       "hitCount": 0,
-      "secretCode": 0483
+      "secretCode": "0483"
     }
     ```
 
@@ -75,7 +75,7 @@ create a *"URL aliasing application"*.
 - The secret code should be in the request's body in JSON format
   ```json
   {
-    "secretCode": 0483
+    "secretCode": "0483"
   }
   ```
 - If it doesn't exists respond with 404 status code
