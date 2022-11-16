@@ -34,7 +34,7 @@ create a *"URL aliasing application"*.
 ## `POST /api/links`
 - If the alias is already in use respond with 400 status code
 - Else
-  - Generate a secret code which is just a random 4-digit integer
+  - Generate a secret code which is just a random 4 character long string consisting of numeric characters
   - Store the entry in the database
   - It should respond with the stored entry in the following JSON format
     ```json
