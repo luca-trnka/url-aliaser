@@ -1,5 +1,6 @@
 package com.gfa.urlaliaser.controllers;
 
+import com.gfa.urlaliaser.models.DTOs.LinkEntryDTO;
 import com.gfa.urlaliaser.models.LinkEntry;
 import com.gfa.urlaliaser.repositories.LinkEntryRepository;
 import com.gfa.urlaliaser.services.LinkEntryService;
@@ -10,9 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class MainController {
@@ -79,5 +81,20 @@ public class MainController {
         }
     }
 
+    @GetMapping("/api/links")
+    @ResponseBody
+    public List<LinkEntryDTO> getLinks() {
+        List<LinkEntryDTO> linkEntryDTOs = new ArrayList<>();
+        Iterable<LinkEntry> linkEntries = linkEntryRepository.findAll();
+        for (LinkEntry linkEntry : linkEntries) {
+            LinkEntryDTO linkEntryDTO = new LinkEntryDTO();
+            linkEntryDTO.setId(linkEntry.getId());
+            linkEntryDTO.setUrl(linkEntry.getUrl());
+            linkEntryDTO.setAlias(linkEntry.getAlias());
+            linkEntryDTO.setHitCount(linkEntry.getHitCount());
+            linkEntryDTOs.add(linkEntryDTO);
+        }
+        return linkEntryDTOs;
+    }
 
 }
