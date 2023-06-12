@@ -2,6 +2,7 @@ package com.gfa.urlaliaser.controllers;
 
 import com.gfa.urlaliaser.models.DTOs.LinkEntryDTO;
 import com.gfa.urlaliaser.models.LinkEntry;
+import com.gfa.urlaliaser.models.SecretCodeIdentificator;
 import com.gfa.urlaliaser.repositories.LinkEntryRepository;
 import com.gfa.urlaliaser.services.LinkEntryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,8 +84,9 @@ public class MainController {
     @GetMapping("/api/links")
     @ResponseBody
     public List<LinkEntryDTO> getLinks() {
-        List<LinkEntryDTO> linkEntryDTOs = new ArrayList<>();
         Iterable<LinkEntry> linkEntries = linkEntryRepository.findAll();
+        //list without secretcodes
+        List<LinkEntryDTO> linkEntryDTOs = new ArrayList<>();
         for (LinkEntry linkEntry : linkEntries) {
             LinkEntryDTO linkEntryDTO = new LinkEntryDTO();
             linkEntryDTO.setId(linkEntry.getId());
@@ -97,4 +98,20 @@ public class MainController {
         return linkEntryDTOs;
     }
 
+    @DeleteMapping("/api/links/{id}")
+    public ResponseEntity<String> deleteLink(@PathVariable Long id, @RequestBody SecretCodeIdentificator indentificator) {
+        //condition when linkEntry with desired id doesnt exist
+        LinkEntry linkEntry = linkEntryRepository.findById(id).orElse(null);
+        if (linkEntry == null) {
+            return ResponseEntity.status(404).build();
+        }
+        //condition when secretCode is wrong
+        if (!linkEntry.getSecretCode().equals(indentificator.getSecretCode())) {
+            return ResponseEntity.status(403).build();
+        }
+
+        //condition when id and secretCode matches
+        linkEntryRepository.delete(linkEntry);
+        return ResponseEntity.status(204).build();
+    }
 }
