@@ -8,6 +8,12 @@
 <body>
 <h1>URL Aliaser</h1>
 <form th:action="@{/save-link}" th:object="${linkEntry}" method="post">
+    <div th:if="${success}">
+        <p>Your URL is aliased to <span th:text="${linkEntry.alias}"></span> and your secret code is <span th:text="${linkEntry.secretCode}"></span>.</p>
+    </div>
+    <div th:if="${error}">
+        <p><span class="error-message">alias is already in use!</span></p>
+    </div>
     <div>
         <label for="url">URL:</label>
         <input type="text" id="url" th:field="*{url}" required>

@@ -15,7 +15,7 @@ public class MainController {
 
     private final LinkEntryService linkEntryService;
     private final LinkEntryRepository linkEntryRepository;
-    
+
     @Autowired
     public MainController(LinkEntryService linkEntryService, LinkEntryRepository linkEntryRepository) {
         this.linkEntryService = linkEntryService;
