@@ -49,7 +49,8 @@ public class MainController {
         model.addAttribute("success", true);
 
         //passing variable linkEntry to display the alias in the main.html
-        model.addAttribute("linkEntry", linkEntry.getAlias());
+        model.addAttribute("alias", linkEntry.getAlias());
+        model.addAttribute("secretcode", linkEntry.getSecretCode());
 
         //clearing the input fields
         linkEntry.setUrl("");
