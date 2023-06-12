@@ -12,7 +12,7 @@
         <p>Your URL is aliased to <span th:text="${alias}"></span> and your secret code is <span th:text="${secretcode}"></span>.</p>
     </div>
     <div th:if="${error}">
-        <p><span class="error-message">alias is already in use!</span></p>
+        <p><span class="error-message" th:text="${error}"></span></p>
     </div>
     <div>
         <label for="url">URL:</label>
