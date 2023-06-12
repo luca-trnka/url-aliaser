@@ -17,5 +17,14 @@
 ## Tasks
 
 - [Java](java.md)
+
 - [JavaScript](javascript.md)
 - [Embedded](embedded.md)
+
+Command for the SQL task: "Question":
+
+-------------------------------
+SELECT name FROM applicants
+WHERE country = 'Czech Republic'
+ORDER BY age
+LIMIT 5;
